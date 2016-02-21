@@ -118,7 +118,25 @@ public class FloatRatingView: UIView {
             }
         }
     }
-    
+	
+	/**
+	The image views colors
+	*/
+	@IBInspectable public var imageTintColor: UIColor? {
+		didSet {
+			let needsRefresh = imageTintColor != oldValue
+			
+			if needsRefresh {
+				self.removeImageViews()
+				self.initImageViews()
+				
+				// Relayout and refresh
+				self.setNeedsLayout()
+				self.refresh()
+			}
+		}
+	}
+	
     /**
     Sets whether or not the rating view can be changed by panning.
     */
@@ -133,8 +151,8 @@ public class FloatRatingView: UIView {
     Ratings change by floating point values.
     */
     @IBInspectable public var floatRatings: Bool = false
-    
-    
+	
+	
     // MARK: Initializations
     
     required override public init(frame: CGRect) {
@@ -242,13 +260,15 @@ public class FloatRatingView: UIView {
         for _ in 0..<self.maxRating {
             let emptyImageView = UIImageView()
             emptyImageView.contentMode = self.imageContentMode
-            emptyImageView.image = self.emptyImage
+            emptyImageView.image = self.emptyImage?.imageWithRenderingMode(.AlwaysTemplate)
+			emptyImageView.tintColor = imageTintColor ?? emptyImageView.tintColor
             self.emptyImageViews.append(emptyImageView)
             self.addSubview(emptyImageView)
             
             let fullImageView = UIImageView()
             fullImageView.contentMode = self.imageContentMode
-            fullImageView.image = self.fullImage
+            fullImageView.image = self.fullImage?.imageWithRenderingMode(.AlwaysTemplate)
+			fullImageView.tintColor = imageTintColor ?? emptyImageView.tintColor
             self.fullImageViews.append(fullImageView)
             self.addSubview(fullImageView)
         }

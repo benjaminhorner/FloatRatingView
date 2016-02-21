@@ -33,7 +33,8 @@ class ViewController: UIViewController, FloatRatingViewDelegate {
         self.floatRatingView.editable = true
         self.floatRatingView.halfRatings = true
         self.floatRatingView.floatRatings = false
-        
+		self.floatRatingView.imageTintColor = UIColor.blueColor()
+		
         // Segmented control init
         self.ratingSegmentedControl.selectedSegmentIndex = 1
         
